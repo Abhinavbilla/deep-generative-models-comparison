@@ -10,7 +10,7 @@ class Config:
     # =========================
     image_size = 64
     batch_size = 64
-    num_workers = 0
+    num_workers = 2
 
     # =========================
     # Training
