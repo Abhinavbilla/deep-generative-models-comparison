@@ -3,7 +3,7 @@ from torch import nn
 from torch.nn import functional as F
 from typing import List, Tuple
 from torch import Tensor
-from models import BaseVAE 
+
 
 class VectorQuantizerEMA(nn.Module):
     def __init__(self, vocab_size: int, embed_dim: int, beta: float = 0.25, decay: float = 0.99, eps: float = 1e-5, noise_scale: float = 0.01):
@@ -68,7 +68,7 @@ class ResidualLayer(nn.Module):
     def forward(self, x: Tensor) -> Tensor:
         return x + self.resblock(x)
 
-class VQVAE(BaseVAE):
+class VQVAE(nn.Module):
     def __init__(self, in_channels: int = 3, embed_dim: int = 64, vocab_size: int = 512,
                  hidden_dims: List[int] = None, beta: float = 0.25, noise_scale: float = 0.01, **kwargs):
         super().__init__()
