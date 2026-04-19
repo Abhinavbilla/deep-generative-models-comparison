@@ -1,26 +1,22 @@
 model_params:
-  name: "VanillaVAE"
+  model_name: "VanillaVAE"
   in_channels: 3
-  latent_dim: 128
+  latent_dim: 32
 
 data_params:
-  dataset: "celeba"
-  data_path: "./data/celeba"   
+  data_path: "./data/celeba"
   train_batch_size: 64
   val_batch_size: 64
-  image_size: 64
+  patch_size: 64
   num_workers: 4
 
 exp_params:
-  LR: 0.0003
+  lr: 0.0003
   weight_decay: 0.0
-  kld_weight: 0.00025
+  scheduler_gamma: 0.95
+  kld_weight: 1.0       
   manual_seed: 1265
 
 trainer_params:
   max_epochs: 50
-  gpus: [0]
-
-logging_params:
-  save_dir: "logs/"
-  name: "VanillaVAE"
+  log_interval: 50
