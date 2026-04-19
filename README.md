@@ -43,30 +43,31 @@ Comparing the reconstructed images after 50 epochs. Notice how the VQ-VAE preser
 
 | Standard VAE | InfoVAE | VQ-VAE |
 | :---: | :---: | :---: |
-| ![Standard](docs/assets/Recon_CelebA_50%20epoches_standardvae.png) | ![InfoVAE](docs/assets/Recon_CelebA_50%20epoches_infovae.png) | ![VQ-VAE](docs/assets/Recon_CelebA_50%20epoches_vqvae.jpg) |
+| <img src="docs/assets/Recon_CelebA_50%20epoches_standardvae.png" width="275"> | <img src="docs/assets/Recon_CelebA_50%20epoches_infovae.png" width="275"> | <img src="docs/assets/Recon_CelebA_50%20epoches_vqvae.jpg" width="275"> |
 
 ### 2. Generated Samples (CelebA)
 Randomly sampled images decoded from the latent space.
 
 | Standard VAE | InfoVAE | VQ-VAE |
 | :---: | :---: | :---: |
-| ![Standard](docs/assets/Gen_CelebA_50%20epoches_standardvae.png) | ![InfoVAE](docs/assets/Gen_CelebA_50%20epoches_infovae.png) | ![VQ-VAE](docs/assets/Gen_CelebA_50%20epoches_vqvae.png) |
+| <img src="docs/assets/Gen_CelebA_50%20epoches_standardvae.png" width="275"> | <img src="docs/assets/Gen_CelebA_50%20epoches_infovae.png" width="275"> | <img src="docs/assets/Gen_CelebA_50%20epoches_vqvae.png" width="275"> |
 
 ### 3. Posterior Collapse Ablation Study
-When using a standard Kullback-Leibler (KL) weight of $\beta=1.0$, the KL divergence rapidly drops to zero (posterior collapse). Reducing the weight to $\beta=0.00025$ prevents this and restores full latent utilization. 
+When using a standard Kullback-Leibler (KL) weight of β=1.0, the KL divergence rapidly drops to zero (posterior collapse). Reducing the weight to β=0.00025 prevents this and restores full latent utilization. 
 
 Notice how increasing the decoder depth from 3 to 5 layers does not prevent collapse—only the objective modification succeeds.
 
-| Collapse ($\beta=1.0$) | No Collapse ($\beta=0.00025$) |
+| Collapse (β=1.0) | No Collapse (β=0.00025) |
 | :---: | :---: |
 | **3-Layer Decoder**<br><img src="docs/assets/KLD_Vs_epoch%20graph%20for%203%20layer%20and%201%20wt.png" width="400"> | **3-Layer Decoder**<br><img src="docs/assets/KLD_Vs_epoch%20graph%20for%203%20layer%20and%200.00025%20wt.png" width="400"> |
 | **5-Layer Decoder**<br><img src="docs/assets/KLD_Vs_epoch%20graph%20for%205%20layer%20and%201%20wt.png" width="400"> | **5-Layer Decoder**<br><img src="docs/assets/KLD_Vs_epoch%20graph%20for%205%20layer%20and%200.00025%20wt.png" width="400"> |
+
 ### 4. Latent Space Interpolation
 Linear interpolation between distinct latent representations. VQ-VAE demonstrates the smoothest semantic transitions across intermediate frames.
 
-<p align="center">
-  <img src="docs/assets/Interpolation%20transition.png" width="800" title="Latent Space Interpolation">
-</p>
+| Standard VAE | InfoVAE | VQ-VAE |
+| :---: | :---: | :---: |
+| <img src="docs/assets/Interpolation%20transition_standardvae.png" width="275"> | <img src="docs/assets/Interpolation%20transition_infovae.jpg" width="275"> | <img src="docs/assets/Interpolation%20transition_vqvae.jpg" width="275"> |
 
 ## Repository Structure
 * `docs/`: Project proposal, final reports, and presentation slides.
