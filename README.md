@@ -53,12 +53,14 @@ Randomly sampled images decoded from the latent space.
 | ![Standard](docs/assets/Gen_CelebA_50%20epoches_standardvae.png) | ![InfoVAE](docs/assets/Gen_CelebA_50%20epoches_infovae.png) | ![VQ-VAE](docs/assets/Gen_CelebA_50%20epoches_vqvae.png) |
 
 ### 3. Posterior Collapse Ablation Study
-When using a standard Kullback-Leibler (KL) weight of $\beta=1.0$, the KL divergence rapidly drops to zero (posterior collapse). Reducing the weight to $\beta=0.00025$ prevents this and restores full latent utilization.
+When using a standard Kullback-Leibler (KL) weight of $\beta=1.0$, the KL divergence rapidly drops to zero (posterior collapse). Reducing the weight to $\beta=0.00025$ prevents this and restores full latent utilization. 
 
-| 3-Layer Decoder ($\beta=1.0$) | 3-Layer Decoder ($\beta=0.00025$) |
+Notice how increasing the decoder depth from 3 to 5 layers does not prevent collapse—only the objective modification succeeds.
+
+| Collapse ($\beta=1.0$) | No Collapse ($\beta=0.00025$) |
 | :---: | :---: |
-| ![Collapse](docs/assets/KLD_Vs_epoch%20graph%20for%203%20layer%20and%201%20wt.png) | ![No Collapse](docs/assets/KLD_Vs_epoch%20graph%20for%203%20layer%20and%200.00025%20wt.png) |
-
+| **3-Layer Decoder**<br><img src="docs/assets/KLD_Vs_epoch%20graph%20for%203%20layer%20and%201%20wt.png" width="400"> | **3-Layer Decoder**<br><img src="docs/assets/KLD_Vs_epoch%20graph%20for%203%20layer%20and%200.00025%20wt.png" width="400"> |
+| **5-Layer Decoder**<br><img src="docs/assets/KLD_Vs_epoch%20graph%20for%205%20layer%20and%201%20wt.png" width="400"> | **5-Layer Decoder**<br><img src="docs/assets/KLD_Vs_epoch%20graph%20for%205%20layer%20and%200.00025%20wt.png" width="400"> |
 ### 4. Latent Space Interpolation
 Linear interpolation between distinct latent representations. VQ-VAE demonstrates the smoothest semantic transitions across intermediate frames.
 
