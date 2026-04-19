@@ -25,7 +25,7 @@ We investigated why highly capable decoders ignore the latent space. By tracking
 * **Weakened Regularization ($\beta=0.00025$):** Restored 32/32 active units (100% utilization). 
 * **Depth Alteration:** Increasing decoder depth from 3 to 5 layers had zero effect on preventing collapse.
 * **Objective Fix:** InfoVAE modifies the objective to introduce the MMD term to ensure proper latent space structuring, which prevents collapse
-* **Structural Fix:**VQ-VAE structurally guarantees active latent utilization by forcing nearest-neighbor codebook lookups, entirely avoiding collapse.
+* **Structural Fix:** VQ-VAE structurally guarantees active latent utilization by forcing nearest-neighbor codebook lookups, entirely avoiding collapse.
 
 ### 3. Latent Space Interpolation (LPIPS)
 We measured the smoothness and semantic coherence of linear interpolations between distinct data points.
