@@ -12,7 +12,8 @@ from src.training.utils import set_seed, get_dataloader
 def train():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--data_root", required=True)
+    parser.add_argument("--data_root", type=str, default="./data/celeba")
+    parser.add_argument("--dataset", type=str, default="celeba")  # NEW
     parser.add_argument("--batch_size", type=int, default=64)
     parser.add_argument("--epochs", type=int, default=50)
     parser.add_argument("--latent_dim", type=int, default=128)
@@ -20,13 +21,17 @@ def train():
 
     args = parser.parse_args()
 
-    
     set_seed(1265)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-    
-    loader = get_dataloader(args.data_root, args.batch_size)
+
+    loader = get_dataloader(
+        dataset_name=args.dataset,
+        data_path=args.data_root,
+        batch_size=args.batch_size,
+        image_size=64
+    )
 
     model = VanillaVAE(latent_dim=args.latent_dim).to(device)
     optimizer = optim.Adam(model.parameters(), lr=3e-4)

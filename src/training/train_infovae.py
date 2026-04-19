@@ -8,9 +8,9 @@ from tqdm import tqdm
 import argparse
 from torchvision import models
 from torchvision.models import VGG16_Weights
+
 from src.models.info_vae import InfoVAE
 from src.training.utils import set_seed, get_dataloader
-
 
 
 class VGGPerceptualLoss(nn.Module):
@@ -30,7 +30,8 @@ class VGGPerceptualLoss(nn.Module):
 def train():
     parser = argparse.ArgumentParser()
 
-    parser.add_argument("--data_root", required=True)
+    parser.add_argument("--data_root", type=str, default="./data/celeba")
+    parser.add_argument("--dataset", type=str, default="celeba")  # NEW
     parser.add_argument("--batch_size", type=int, default=64)
     parser.add_argument("--epochs", type=int, default=50)
     parser.add_argument("--latent_dim", type=int, default=256)
@@ -43,13 +44,16 @@ def train():
 
     args = parser.parse_args()
 
-    
     set_seed(1265)
 
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-   
-    loader = get_dataloader(args.data_root, args.batch_size)
+    loader = get_dataloader(
+        dataset_name=args.dataset,
+        data_path=args.data_root,
+        batch_size=args.batch_size,
+        image_size=64
+    )
 
     model = InfoVAE(
         latent_dim=args.latent_dim,
@@ -60,7 +64,6 @@ def train():
 
     optimizer = optim.Adam(model.parameters(), lr=1e-4)
 
-    
     perceptual_fn = VGGPerceptualLoss().to(device)
 
     for epoch in range(args.epochs):
@@ -76,7 +79,6 @@ def train():
 
             out = model(x)
 
-            
             p_loss = perceptual_fn(out[0], x)
 
             loss_dict = model.loss_function(
@@ -106,4 +108,3 @@ def train():
 
 if __name__ == "__main__":
     train()
-
