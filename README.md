@@ -40,7 +40,7 @@ We measured the smoothness and semantic coherence of linear interpolations betwe
 | **VQ-VAE** | **0.0155** | Smoothest interpolation with highly coherent semantic transitions. |
 
 ##  Repository Structure
-* `docs/`: Final reports, and presentation slides.
+* `docs/`: Project proposal, Final reports, and presentation slides.
 * `models/`: Core PyTorch architectural implementations for the Standard VAE, InfoVAE, and VQ-VAE.
 * `papers/`: Reference research literature and foundational papers (e.g., Kingma & Welling, van den Oord et al., Zhao et al.).
 * `scripts/`: Training scripts, evaluation loops (MSE, FID, LPIPS), and notebooks used for the ablation studies.
