@@ -8,10 +8,7 @@ The structure of a model's latent space directly determines its generative capab
 2. **InfoVAE:** Modifies the ELBO objective to use Maximum Mean Discrepancy (MMD) on the aggregated posterior, decoupling inference from regularization.
 3. **VQ-VAE:** Replaces the continuous bottleneck with a discrete, finite codebook of embeddings, mapping encoded inputs via nearest-neighbor lookup.
 
-## Key Findings & Results
-
-### 1. Generative Quality (FID) and Reconstruction (MSE)
-Discrete latent representations structurally eliminate the Gaussian smoothing problem inherent to standard VAEs. VQ-VAE produced the sharpest and most realistic outputs.
+## Key Findings & Quantitative Results
 
 ### 1. Generative Quality (FID) and Reconstruction (MSE)
 Discrete latent representations structurally eliminate the Gaussian smoothing problem inherent to standard VAEs. VQ-VAE produced the sharpest and most realistic outputs.
@@ -22,7 +19,7 @@ Discrete latent representations structurally eliminate the Gaussian smoothing pr
 | **InfoVAE** | 0.0756 | 68.21 | Produces coherent global structures and avoids total collapse, but still exhibits noticeable perceptual blurring. |
 | **VQ-VAE** | **0.0028** | **18.18** | Achieves near-perfect structural matching. Generates the sharpest outputs by preserving high-frequency details and distinct edges. |
 
-### 2. Posterior Collapse Ablation Study
+### 2. Study on Posterior Collapse
 We investigated why highly capable decoders ignore the latent space. By tracking "active latent units" (dimensions where variance $> 0.01$), we proved that posterior collapse is an objective-driven problem, not an architectural one.
 * **Standard Regularization ($\beta=1.0$):** Resulted in 0/32 active units (total collapse).
 * **Weakened Regularization ($\beta=0.00025$):** Restored 32/32 active units (100% utilization). 
@@ -38,6 +35,36 @@ We measured the smoothness and semantic coherence of linear interpolations betwe
 | **Standard VAE** | 0.3106 | Continuous transitions, but blurry with lost semantic detail. |
 | **InfoVAE** | 0.1832 | Sharper transitions, but abrupt changes between intermediate frames. |
 | **VQ-VAE** | **0.0155** | Smoothest interpolation with highly coherent semantic transitions. |
+
+## Visual Results 
+
+### 1. CelebA Reconstructions
+Comparing the reconstructed images after 50 epochs. Notice how the VQ-VAE preserves high-frequency details and distinct edges compared to the blurred continuous models.
+
+| Standard VAE | InfoVAE | VQ-VAE |
+| :---: | :---: | :---: |
+| ![Standard](docs/assets/Recon_CelebA_50%20epoches_standardvae.png) | ![InfoVAE](docs/assets/Recon_CelebA_50%20epoches_infovae.png) | ![VQ-VAE](docs/assets/Recon_CelebA_50%20epoches_vqvae.jpg) |
+
+### 2. Generated Samples (CelebA)
+Randomly sampled images decoded from the latent space.
+
+| Standard VAE | InfoVAE | VQ-VAE |
+| :---: | :---: | :---: |
+| ![Standard](docs/assets/Gen_CelebA_50%20epoches_standardvae.png) | ![InfoVAE](docs/assets/Gen_CelebA_50%20epoches_infovae.png) | ![VQ-VAE](docs/assets/Gen_CelebA_50%20epoches_vqvae.png) |
+
+### 3. Posterior Collapse Ablation Study
+When using a standard Kullback-Leibler (KL) weight of $\beta=1.0$, the KL divergence rapidly drops to zero (posterior collapse). Reducing the weight to $\beta=0.00025$ prevents this and restores full latent utilization.
+
+| 3-Layer Decoder ($\beta=1.0$) | 3-Layer Decoder ($\beta=0.00025$) |
+| :---: | :---: |
+| ![Collapse](docs/assets/KLD_Vs_epoch%20graph%20for%203%20layer%20and%201%20wt.png) | ![No Collapse](docs/assets/KLD_Vs_epoch%20graph%20for%203%20layer%20and%200.00025%20wt.png) |
+
+### 4. Latent Space Interpolation
+Linear interpolation between distinct latent representations. VQ-VAE demonstrates the smoothest semantic transitions across intermediate frames.
+
+<p align="center">
+  <img src="docs/assets/Interpolation%20transition.png" width="800" title="Latent Space Interpolation">
+</p>
 
 ## Repository Structure
 * `docs/`: Project proposal, final reports, and presentation slides.
