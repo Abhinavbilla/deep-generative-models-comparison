@@ -1,23 +1,57 @@
-import os
+
 import torch
-from torchvision.utils import save_image
+import random
+import numpy as np
+from torch.utils.data import Dataset, DataLoader
+from torchvision import transforms
+from pathlib import Path
+from PIL import Image
 
 
-def save_checkpoint(model, epoch, config):
-    model_dir = os.path.join(config.save_dir, config.model_name)
-    os.makedirs(model_dir, exist_ok=True)
+def set_seed(seed=1265):
+    random.seed(seed)
+    np.random.seed(seed)
+    torch.manual_seed(seed)
+    torch.cuda.manual_seed_all(seed)
 
-    path = os.path.join(model_dir, f"{config.model_name}_epoch_{epoch}.pth")
-    torch.save(model.state_dict(), path)
+    
+    torch.backends.cudnn.deterministic = True
+    torch.backends.cudnn.benchmark = False
 
 
-def save_reconstructions(model, x, epoch):
-    model.eval()
+class CelebALocal(Dataset):
+    def __init__(self, root, image_size=64):
+        self.files = sorted(list(Path(root).rglob("*.jpg")))
 
-    with torch.no_grad():
-        recon = model.generate(x)
+        if len(self.files) == 0:
+            raise ValueError(
+                f"No images found in {root}. "
+                "Make sure dataset is placed in ./data/celeba"
+            )
 
-    os.makedirs("outputs", exist_ok=True)
+        self.transform = transforms.Compose([
+            transforms.Resize((image_size, image_size)),
+            transforms.CenterCrop(image_size),
+            transforms.ToTensor(),
+            transforms.Normalize([0.5]*3, [0.5]*3)
+        ])
 
-    save_image(x[:8], f"outputs/original_epoch_{epoch}.png", nrow=4, normalize=True)
-    save_image(recon[:8], f"outputs/recon_epoch_{epoch}.png", nrow=4, normalize=True)
+    def __len__(self):
+        return len(self.files)
+
+    def __getitem__(self, idx):
+        img = Image.open(self.files[idx]).convert("RGB")
+        return self.transform(img), 0
+
+
+
+def get_dataloader(data_path, batch_size, image_size=64):
+    dataset = CelebALocal(data_path, image_size)
+
+    return DataLoader(
+        dataset,
+        batch_size=batch_size,
+        shuffle=True,
+        num_workers=2,
+        pin_memory=torch.cuda.is_available()
+    )
