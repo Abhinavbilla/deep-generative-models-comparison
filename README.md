@@ -13,11 +13,14 @@ The structure of a model's latent space directly determines its generative capab
 ### 1. Generative Quality (FID) and Reconstruction (MSE)
 Discrete latent representations structurally eliminate the Gaussian smoothing problem inherent to standard VAEs. VQ-VAE produced the sharpest and most realistic outputs.
 
-| Model | Reconstruction Loss (MSE) | Fréchet Inception Distance (FID) |
-| :--- | :---: | :---: |
-| **Standard VAE** | 0.0337 | 85.29 |
-| **InfoVAE** | 0.0756 | 68.21 |
-| **VQ-VAE** | **0.0028** | **18.18** |
+### 1. Generative Quality (FID) and Reconstruction (MSE)
+Discrete latent representations structurally eliminate the Gaussian smoothing problem inherent to standard VAEs. VQ-VAE produced the sharpest and most realistic outputs.
+
+| Model | Reconstruction Loss (MSE) | Fréchet Inception Distance (FID) | Key Observations |
+| :--- | :---: | :---: | :--- |
+| **Standard VAE** | 0.0337 | 85.29 | Captures basic geometry but suffers from severe, uniform Gaussian blurring. Generative outputs are structurally weak. |
+| **InfoVAE** | 0.0756 | 68.21 | Produces coherent global structures and avoids total collapse, but still exhibits noticeable perceptual blurring. |
+| **VQ-VAE** | **0.0028** | **18.18** | Achieves near-perfect structural matching. Generates the sharpest outputs by preserving high-frequency details and distinct edges. |
 
 ### 2. Posterior Collapse Ablation Study
 We investigated why highly capable decoders ignore the latent space. By tracking "active latent units" (dimensions where variance $> 0.01$), we proved that posterior collapse is an objective-driven problem, not an architectural one.
