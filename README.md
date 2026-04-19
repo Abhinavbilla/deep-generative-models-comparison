@@ -39,11 +39,14 @@ We measured the smoothness and semantic coherence of linear interpolations betwe
 | **InfoVAE** | 0.1832 | Sharper transitions, but abrupt changes between intermediate frames. |
 | **VQ-VAE** | **0.0155** | Smoothest interpolation with highly coherent semantic transitions. |
 
-##  Repository Structure
-* `docs/`: Project proposal, Final reports, and presentation slides.
-* `models/`: Core PyTorch architectural implementations for the Standard VAE, InfoVAE, and VQ-VAE.
+## Repository Structure
+* `docs/`: Project proposal, final reports, and presentation slides.
 * `papers/`: Reference research literature and foundational papers (e.g., Kingma & Welling, van den Oord et al., Zhao et al.).
-* `scripts/`: Training scripts, evaluation loops (MSE, FID, LPIPS), and notebooks used for the ablation studies.
+* `src/`: Main source code directory containing:
+  * `evaluation/`: Scripts for calculating FID, MSE, LPIPS, and latent utilization.
+  * `models/`: Core PyTorch architectural implementations for the Standard VAE, InfoVAE, and VQ-VAE.
+  * `training/`: Training loops and YAML configuration files.
+* `requirements.txt`: Python dependencies required to run the codebase.
 
 ##  Contributors
 * Abhinav
